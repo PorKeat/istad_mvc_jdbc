@@ -6,6 +6,7 @@ import model.dto.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class UI {
@@ -74,7 +75,7 @@ public class UI {
                                 UserCreateDto userCreateDto
                                         = new UserCreateDto(uName, uEmail, uPass,Date.valueOf(LocalDate.now()));
                                 UserResponseDto user = userController.insertNewUser(userCreateDto);
-                                System.out.println(user);
+                                new TableUI<UserResponseDto>().getTableDisplay(Collections.singletonList(user));
                             }
                             case 3->{
                                 System.out.print("[+] Insert Product Uuid: ");
@@ -84,17 +85,20 @@ public class UI {
                                 UserResponseDto updatedUser = userController
                                         .updateUserByUuid(uuid,
                                                 new UpdateUserDto(newUserName));
-                                System.out.println(updatedUser);
+                                new TableUI<UserResponseDto>().getTableDisplay(Collections.singletonList(updatedUser));
                             }
                             case 4->{
                                 System.out.print("[+] Insert user uuid: ");
                                 String uuid = new Scanner(System.in).nextLine();
-                                System.out.println(userController.getUserByUuid(uuid));
+                                new TableUI<UserResponseDto>().getTableDisplay(Collections.singletonList(userController.getUserByUuid(uuid)));
                             }
                             case 5->{
                                 System.out.print("[+] Insert user uuid: ");
                                 String uuid = new Scanner(System.in).nextLine();
-                                System.out.println(userController.deleteUserByUuid(uuid));
+                                int check = userController.deleteUserByUuid(uuid);
+                                if (check > 0){
+                                    System.out.println("[+] Deleted user successfully");
+                                }
                             }
                             case 6-> {
                                 checked = false;
@@ -149,7 +153,10 @@ public class UI {
                             case 5->{
                                 System.out.print("[+] Insert product uuid: ");
                                 String uuid = new Scanner(System.in).nextLine();
-                                System.out.println(productController.deleteProductByUuid(uuid));
+                                int check = productController.deleteProductByUuid(uuid);
+                                if (check>0){
+                                    System.out.println("[+] Deleted product successfully");
+                                }
                             }
                             case 6-> {
                                 checked = false;
